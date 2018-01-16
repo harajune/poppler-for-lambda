@@ -13,6 +13,7 @@ wget -P ~/tmp/downloads \
          https://cmake.org/files/v3.10/cmake-3.10.1.tar.gz \
          http://xmlsoft.org/sources/libxml2-2.9.7.tar.gz \
          http://poppler.freedesktop.org/poppler-0.62.0.tar.xz \
+         https://poppler.freedesktop.org/poppler-data-0.4.8.tar.gz \
 && ls ~/tmp/downloads/*.tar.* | xargs -i tar xf {} -C ~/tmp/libs/
 
 pushd .
@@ -58,7 +59,7 @@ make
 make install
 
 ####################################
-cd ~/tmp/libs/poppler*
+cd ~/tmp/libs/poppler-0*
 #PKG_CONFIG_PATH=~/tmp/usr/lib/pkgconfig/:$FONTCONFIG_PKG:$PKG_CONFIG_PATH \
 #./configure --prefix=/var/task      \
 #            --sysconfdir=/var/task/etc           \
@@ -79,6 +80,9 @@ cmake .. -DCMAKE_BUILD_TYPE=Release   \
        -DENABLE_DCTDECODER=none \
 && make &&
 make install DESTDIR="/home/ec2-user/tmp/install"
+
+cd ~/tmp/libs/poppler-data*
+make prefix=/home/ec2-user/tmp/usr install
 
 unset FONTCONFIG_PKG
 popd
